@@ -1,0 +1,14 @@
+mail_from: hoge@fuga.com2
+to: [hoge@fuga.com]
+var:
+  var1: 3
+  var2: [3, 4]
+  var3: 5
+  static_ips:
+    - 10.244.0.26
+    - 10.244.0.50
+    - 10.244.0.54
+guooo: 1234
+nuooo:
+  a: 2
+nuwaa: 6
