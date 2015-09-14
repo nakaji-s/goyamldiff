@@ -87,16 +87,21 @@ func addRightParam(mergedMap, rightMap map[interface{}]interface{}) {
 		}
 	}
 
+	setComparer(mergedMap)
+}
+
+func setComparer(mergedMap map[interface{}]interface{}) {
 	for key, value := range mergedMap {
-		if value != nil {
+		if value == nil {
+			mergedMap[key] = Comparer{nil, Empty{}}
+		} else if reflect.TypeOf(value).Kind() == reflect.Map {
+			setComparer(mergedMap[key].(map[interface{}]interface{}))
+		} else {
 			vt := reflect.TypeOf(value).Kind()
 			if vt != reflect.Map && vt != reflect.Struct {
 				mergedMap[key] = Comparer{value, Empty{}}
 			}
-		} else {
-			mergedMap[key] = Comparer{nil, Empty{}}
 		}
-
 	}
 }
 
