@@ -3,7 +3,7 @@
 $ go get github.com/nakaji-s/goyamldiff 
 
 ## Usage
-$ goyamldiff file1.yaml file2.yaml
+$ goyamldiff test.yaml test2.yaml
 ```diff
 nuooo:
   - 5
