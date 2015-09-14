@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"reflect"
+	"sort"
 )
 
 func main() {
@@ -122,13 +123,23 @@ func ommitSameParam(m map[interface{}]interface{}) {
 }
 
 func printDiffYaml(m map[interface{}]interface{}, indent string) {
-	for key, value := range m {
+	sortedMap := make([]string, len(m))
+	i := 0
+	for k, _ := range m {
+		sortedMap[i] = k.(string)
+		i++
+	}
+	sort.Strings(sortedMap)
+
+	for _, v := range sortedMap {
+		key := v
+		value := m[key]
 		if reflect.TypeOf(value).Kind() == reflect.Map {
-			println(indent + key.(string) + ":")
+			println(indent + key + ":")
 			printDiffYaml(m[key].(map[interface{}]interface{}), indent+"    ")
 		} else {
 			tmp := value.(Comparer)
-			println(indent + key.(string) + ":")
+			println(indent + key + ":")
 			color.Set(color.FgRed)
 			printValue(tmp.leftValue, indent+"  - ")
 			color.Set(color.FgGreen)
